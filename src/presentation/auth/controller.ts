@@ -33,6 +33,7 @@ export class AuthController {
       })
       .catch((e) => this.handleError(e, res));
   };
+
   loginUser = (req: Request, res: Response) => {
     const [errorMessage, loginUserDto] = LoginUserDto.create(req.body);
     if (errorMessage) return res.status(400).json({ errorMessage });
@@ -43,7 +44,15 @@ export class AuthController {
       })
       .catch((e) => this.handleError(e, res));
   };
+  
   validateUser = (req: Request, res: Response) => {
-    res.json("validateUser");
+    const { token } = req.params;
+    this.authService.validateEmail(token)
+      .then((isValidate) => {
+        res.json({
+          message: "Email validated",
+        });
+      })
+      .catch((e) => this.handleError(e, res));
   };
 }
