@@ -22,15 +22,15 @@ export class JwtAdapter {
     });
   };
 
-  static validateToken = (token: string) => {
+  static validateToken<T>(token: string): Promise<T | null> {
     return new Promise((resolve) => {
       jwt.verify(token, JWT_SECRET, (err, decoded) => {
         if (err) {
           resolve(null);
           return;
         }
-        resolve(decoded);
+        resolve(decoded as T);
       });
     });
-  };
+  }
 }
